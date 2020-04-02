@@ -1,0 +1,4 @@
+<resources>
+    <string name="sorry">Sorry, this is only available on Android R!</string>
+    <string name="already_permission">You should already have permission!</string>
+</resources>
