@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,17 +42,23 @@ class MainActivity : AppCompatActivity() {
                 var sb: StringBuffer = StringBuffer()
                 for ((i, result) in permissions.withIndex()) {
                     if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        if (!isPermissionGrarnted(result)) {
-                            sb.append(result.split('.')[2]).append(",")
+                        if (!isPermissionGranted(result)) {
+                            sb.append(result.split('.')[2]).append("\n")
                         }
                     }
                 }
-                Log.d(TAG, "## not permitted: ${sb.toString().dropLastWhile { it == ',' }}")
+
+                if (sb.isNotEmpty()) {
+                    sb.append("----------------------------------------------\n")
+                    sb.append("Not permitted.")
+                }
+
+                txt_result.text = sb.toString()
             }
         }
     }
 
-    private fun isPermissionGrarnted(permission: String): Boolean {
+    private fun isPermissionGranted(permission: String): Boolean {
         return PackageManager.PERMISSION_GRANTED == checkSelfPermission(permission)
     }
 }
