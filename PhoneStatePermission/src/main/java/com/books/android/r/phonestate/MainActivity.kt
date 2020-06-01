@@ -22,14 +22,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermission() {
-        val phonePermission = when (BuildConfig.FLAVOR?.equals("phonestate")) {
-            true -> Manifest.permission.READ_PHONE_STATE
-            else -> Manifest.permission.READ_PHONE_NUMBERS
-        }
+//        val phonePermission = when (BuildConfig.FLAVOR?.equals("phonestate")) {
+//            true -> Manifest.permission.READ_PHONE_STATE
+//            else -> Manifest.permission.READ_PHONE_NUMBERS
+//        }
 
         requestPermissions(
             arrayOf(
-                phonePermission
+//                phonePermission
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_PHONE_NUMBERS
             ), PERM_REQUEST
         )
     }
@@ -65,14 +67,13 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun getPhoneNumber(): String {
-        val number: String
-        try {
+        return try {
             val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            number = tm.line1Number
+            tm.line1Number
         } catch (ex: Exception) {
-            return ex.message!!
+            ex.printStackTrace()
+            ""
         }
-        return number
     }
 
     private fun isPermissionGranted(permission: String): Boolean {
