@@ -1,2 +1,4 @@
+include ':PackageManager'
 include ':ManageExternalStorage'
 include ':PermissionCheck'
+include ':PhoneStatePermission'
