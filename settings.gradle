@@ -1,3 +1,5 @@
+include ':SystemUiVisibility'
+include ':PackageVisibility'
 include ':PackageManager'
 include ':ManageExternalStorage'
 include ':PermissionCheck'

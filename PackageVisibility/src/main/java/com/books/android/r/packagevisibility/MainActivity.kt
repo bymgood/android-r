@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Trace
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.layout_main.*
 import java.lang.StringBuilder
@@ -15,6 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_main)
 
+        btn_call_other_app.setOnClickListener {
+            callOtherApp("com.twitter.android")
+        }
+
         btn_list_installed.setOnClickListener {
             listInstalled()
         }
@@ -22,18 +27,20 @@ class MainActivity : AppCompatActivity() {
 //        isIntentAvailable(this, "onestore://common")
     }
 
-    private fun callPlayStore() {
-        startActivity(getGooglePlayIntent())
+    private fun callOtherApp(pkgName: String): Boolean {
+//        startActivity(getCallingAppIntent())
+
+        return runCatching {
+            packageManager.getPackageInfo(pkgName, 0) != null
+        }.also {
+            println("## isSuccess: ${it.isSuccess}")
+        }.getOrDefault(defaultValue = false)
     }
 
-    private fun getGooglePlayIntent(): Intent {
-        val GOOGLE_PLAY_APP_URL = "market://details?id=com.skt.skaf.OA00050017"
-        val intent = Intent(Intent.ACTION_VIEW)
-        with(intent) {
-            setData(Uri.parse(GOOGLE_PLAY_APP_URL))
+    private fun getCallingAppIntent(): Intent {
+        return with(Intent(Intent.ACTION_VIEW)) {
+            setData(Uri.parse(""))
         }
-
-        return intent
     }
 
     /**

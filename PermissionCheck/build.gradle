@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.compile_sdk_version
-    buildToolsVersion rootProject.ext.build_tools_version
 
     defaultConfig {
         applicationId "com.books.android.r.permissioncheck"
@@ -36,7 +35,7 @@ android {
         R {
             dimension "default"
             applicationIdSuffix ".r"
-            targetSdkVersion 'R'
+            targetSdkVersion 30
 //            resValue "bool", "optOut", "true"
             resValue "string", "app_name", "PermissionCheck R"
         }

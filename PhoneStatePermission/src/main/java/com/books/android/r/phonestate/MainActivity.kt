@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.telephony.TelephonyManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.BuildCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -22,18 +23,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermission() {
-//        val phonePermission = when (BuildConfig.FLAVOR?.equals("phonestate")) {
-//            true -> Manifest.permission.READ_PHONE_STATE
-//            else -> Manifest.permission.READ_PHONE_NUMBERS
-//        }
+        val phonePermission = when ("STATE" == getString(R.string.app_name)) {
+            true -> arrayOf(Manifest.permission.READ_PHONE_STATE)
+            else -> arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS)
+        }
 
-        requestPermissions(
-            arrayOf(
-//                phonePermission
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_PHONE_NUMBERS
-            ), PERM_REQUEST
-        )
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+        requestPermissions(phonePermission, PERM_REQUEST)
     }
 
     override fun onRequestPermissionsResult(
@@ -58,7 +54,8 @@ class MainActivity : AppCompatActivity() {
 
                     tv_phone_number.text = "Not permitted"
                 } else {
-                    tv_phone_number.text = getPhoneNumber()
+                    tv_phone_number.text = getPhoneNumber().plus("\n")
+                                                .plus(getNetworkType())
                 }
 
             }
@@ -69,12 +66,24 @@ class MainActivity : AppCompatActivity() {
     private fun getPhoneNumber(): String {
         return try {
             val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            tm.line1Number
+            "PhoneNumber: ".plus(tm.line1Number)
         } catch (ex: Exception) {
             ex.printStackTrace()
-            ""
+            "Exception: ".plus(ex.message)
         }
     }
+
+    @SuppressLint("MissingPermission")
+    private fun getNetworkType(): String {
+        return try {
+            val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            "NetworkType: ".plus(tm.networkType)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            "Exception: ".plus(ex.message)
+        }
+    }
+
 
     private fun isPermissionGranted(permission: String): Boolean {
         return PackageManager.PERMISSION_GRANTED == checkSelfPermission(permission)

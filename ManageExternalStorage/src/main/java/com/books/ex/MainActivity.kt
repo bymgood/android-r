@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            val uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
+            val uri = Uri.parse("package:${packageName}")
 
             startActivity(
                 Intent(

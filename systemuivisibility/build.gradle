@@ -6,7 +6,7 @@ android {
     compileSdkVersion compile_sdk_version
 
     defaultConfig {
-        applicationId "com.books.android.r.packagemanager"
+        applicationId "com.books.android.r.systemuivisibility"
         minSdkVersion 19
         targetSdkVersion target_sdk_version
         versionCode 1
@@ -19,25 +19,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    flavorDimensions "default"
-
-    productFlavors {
-        Q {
-            dimension "default"
-            applicationIdSuffix ".q"
-            targetSdkVersion 29
-            resValue "string", "app_name", "PM Q"
-        }
-
-        R {
-            dimension "default"
-            applicationIdSuffix ".r"
-            targetSdkVersion 30
-//            resValue "bool", "optOut", "true"
-            resValue "string", "app_name", "PM R"
         }
     }
 }
